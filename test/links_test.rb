@@ -118,6 +118,20 @@ class LinkTest < Test::Unit::TestCase
     assert_match("<p><a href='http://www.example.com/page#anchor'>[1]</a> following text</p>\n<ol><li><a href='http://www.example.com/page#anchor'>http://www.example.com/page#anchor</a></li></ol>", markup.to_html)
   end
 
+  def test_bare_url_with_trailing_comma
+    text = "http://www.example.com/page, following text"
+    markup = Marker.parse text
+
+    assert_match("<p><a href='http://www.example.com/page'>[1]</a>, following text</p>\n<ol><li><a href='http://www.example.com/page'>http://www.example.com/page</a></li></ol>", markup.to_html)
+  end
+
+  def test_bare_url_with_trailing_period
+    text = "http://www.example.com/page. Following text"
+    markup = Marker.parse text
+
+    assert_match("<p><a href='http://www.example.com/page'>[1]</a>. Following text</p>\n<ol><li><a href='http://www.example.com/page'>http://www.example.com/page</a></li></ol>", markup.to_html)
+  end
+
   def test_multiple_footnotes
     text = "http://www.example.com [http://www.example.com]"
     markup = Marker.parse text
